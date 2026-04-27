@@ -1,365 +1,270 @@
-# YouTube MCP Server
+# YouTube MCP Server + Marketing Skills
 
-> **Connect Claude to your YouTube channel.** Read analytics, fetch full video metadata (including unlisted/private/draft), search your uploads, and update titles/descriptions/tags — all from Claude Desktop, Claude Code, or any MCP client.
+**Connect any AI agent to your YouTube channel — then give it 21 marketing commands.**
+
+One repo. Two layers:
+- **MCP Server** — 10 tools that read your real channel data and push updates directly to YouTube
+- **21 Skill Commands** — SEO, scripts, analytics, Shorts, batch updates, WordPress publishing, and funnel analysis
 
 [![npm version](https://img.shields.io/npm/v/youtube-channel-mcp?style=for-the-badge&color=CB3837&logo=npm)](https://www.npmjs.com/package/youtube-channel-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/youtube-channel-mcp?style=for-the-badge&color=CB3837&logo=npm)](https://www.npmjs.com/package/youtube-channel-mcp)
-[![GitHub Stars](https://img.shields.io/github/stars/adityaarsharma/youtube-channel-mcp?style=for-the-badge&logo=github)](https://github.com/adityaarsharma/youtube-channel-mcp)
+[![GitHub Stars](https://img.shields.io/github/stars/adityaarsharma/youtube-mcp-server?style=for-the-badge&logo=github)](https://github.com/adityaarsharma/youtube-mcp-server)
 [![License MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 [![Claude MCP](https://img.shields.io/badge/Claude-MCP%20Server-FF6B35?style=for-the-badge&logo=anthropic)](https://claude.ai)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-43853D?style=for-the-badge&logo=node.js)](https://nodejs.org)
 
 ---
 
-## What Is This?
+## Works With
 
-A **Model Context Protocol (MCP) server** that connects Claude to the **YouTube Data API v3** and **YouTube Analytics API** via OAuth2.
+| Agent | Via | Status |
+|-------|-----|--------|
+| Claude Code | Skill files + MCP | ✅ Full support |
+| Claude Desktop | MCP server | ✅ Full support |
+| Cursor | MCP server | ✅ Full support |
+| Windsurf | MCP server | ✅ Full support |
+| OpenAI Codex | Skill files | ✅ Full support |
+| Gemini CLI | Skill files | ✅ Full support |
+| Any MCP client | Remote HTTP/SSE | ✅ Full support |
 
-Instead of copying data from YouTube Studio into AI tools, just ask Claude:
+---
 
-- *"Pull the full title, description and tags for this video"*
-- *"What are my top performing videos this month?"*
-- *"Update the title and tags on my latest upload"*
-- *"Where is my traffic coming from?"*
+## Why This Exists
 
-Claude reads your **real private channel data** and can **update video SEO directly**.
+VidIQ gives you a score. TubeBuddy gives you a checklist.
+
+Neither of them can **push an update to your video**, **write a retention-engineered script**, or **publish a companion blog post to WordPress** — all in one workflow.
 
 ```
-Claude  →  YouTube MCP Server  →  YouTube APIs  →  Your Channel Data
+/youtube ideate       → 10 ranked ideas + live keyword data
+/youtube seo          → 3 title variants + full description + 20 tags
+/youtube script       → retention-engineered tutorial script
+/youtube metadata     → copy-paste upload package, pushed to YouTube via MCP
+/youtube batch-seo    → bulk-update worst-performing videos sorted by CTR
+/youtube wp-post      → companion blog post → WordPress REST API publish
+```
+
+**No other tool does the YouTube → WordPress publishing pipeline.**
+**No other tool is aware you're a product company, not an ad-revenue creator.**
+
+---
+
+## MCP Server — 10 Tools
+
+Live read/write access to your YouTube channel via OAuth2.
+
+```
+Claude  →  YouTube MCP Server  →  YouTube APIs  →  Your Channel
 (you)        (this repo)           (OAuth2)         (stays local)
 ```
 
-**Everything runs on YOUR machine. Read + Write access. Nothing sent to third parties.**
-
----
-
-## Tools Available (10 total)
-
-### Video Metadata (Read + Write)
+Everything runs on your machine. Nothing sent to third parties.
 
 | Tool | What It Does |
 |------|-------------|
-| `get_video_details` | Full metadata for any video by ID or URL — title, full description, all tags, category, privacy status (public/unlisted/private/draft), stats, duration, thumbnail URL |
-| `search_my_videos` | Search your own channel's videos by keyword. Returns metadata + stats for matching videos |
-| `update_video_seo` | Update title, description, and/or tags on any video directly. Only changes fields you provide |
-
-### Channel Analytics
-
-| Tool | What It Does |
-|------|-------------|
-| `get_channel_overview` | Subscribers, total views, video count, channel description, creation date |
-| `get_all_videos` | List all videos with stats (views, likes, comments, tags, privacy status). Sort by date or views |
-| `get_analytics_over_time` | Day-by-day views, watch time, subscribers gained/lost for any date range |
-| `get_top_videos_analytics` | Top performing videos ranked by views with retention %, watch time, subs gained |
-| `get_audience_demographics` | Audience breakdown: top countries, device types, age groups, gender |
-| `get_traffic_sources` | Where viewers come from: YouTube Search, Suggested, Browse, External, Direct |
-| `analyze_and_suggest_topics` | Pulls channel + top video data for AI-powered topic analysis |
+| `get_video_details` | Full metadata — title, description, tags, privacy status, stats, duration |
+| `search_my_videos` | Search your channel by keyword — returns metadata + stats |
+| `update_video_seo` | Push title, description, tags directly to YouTube |
+| `get_channel_overview` | Subscribers, total views, video count |
+| `get_all_videos` | All videos with stats, sorted by date or views |
+| `get_analytics_over_time` | Day-by-day views, watch time, subscribers for any date range |
+| `get_top_videos_analytics` | Top videos ranked by views — with retention %, subs gained |
+| `get_audience_demographics` | Countries, device types, age groups, gender |
+| `get_traffic_sources` | Search, Suggested, Browse, External — with percentages |
+| `analyze_and_suggest_topics` | AI-powered topic analysis from your channel data |
 
 ---
 
-## Install
+## 21 Skill Commands
 
-### Option A: npx (Zero Install — just run it)
+| Command | What It Does |
+|---------|-------------|
+| `/youtube seo` | 3 title variants, description, 20 tags — with live keyword data |
+| `/youtube audit` | 4-dimension channel health audit with A–F grades |
+| `/youtube script` | Retention-engineered tutorial script, pattern interrupts every 60–90s |
+| `/youtube hook` | 5 hook variants with drop-off risk ratings |
+| `/youtube thumbnail` | 3 A/B thumbnail briefs with full design specs |
+| `/youtube ideate` | 10 ranked video ideas with keyword volume + SERP gap |
+| `/youtube analyze` | Analytics diagnosis — CTR, retention, traffic sources, sub conversion |
+| `/youtube calendar` | Monthly content plan with Shorts supplement + upload cadence |
+| `/youtube shorts` | Vertical-format Short: script, metadata, visual markers |
+| `/youtube repurpose` | 7-platform expansion: Shorts, blog, LinkedIn, X, email, podcast, Community |
+| `/youtube competitor` | Keyword gaps, format gaps, SERP map using live data |
+| `/youtube metadata` | Copy-paste upload package with pre-publish checklist |
+| `/youtube strategy` | Channel positioning, content pillars, 30/60/90-day milestones |
+| `/youtube wp-post` | Companion blog post → WordPress publish + VideoObject schema |
+| `/youtube plugin-demo` | Script + SEO template for software/plugin demo videos |
+| `/youtube batch-seo` | Bulk SEO update for lowest-performing videos |
+| `/youtube funnel` | Video → landing page → product purchase funnel map |
+| `/youtube comment-intel` | Mine comments for feature requests, pain points, reply templates |
+| `/youtube shorts-from-long` | Extract 3–5 Shorts from any existing long-form video |
+| `/youtube collab` | Channel collab opportunity finder for your niche |
+| `/youtube monetize` | Revenue strategy across 7 streams |
+
+---
+
+## Skill File Structure
+
+```
+skills/youtube-marketing/
+  SKILL.md              ← entry point, routing, channel config
+  sub-skills/           ← 21 command instruction files
+  references/           ← 9 on-demand knowledge guides (data-cited)
+  templates/            ← 6 channel type configs
+  execution/            ← helper scripts
+references/
+  whitepapers.md        ← full citation database
+```
+
+---
+
+## Setup
+
+**Prerequisites:** Node.js 18+, Google Cloud project with YouTube Data API v3 + YouTube Analytics API enabled, OAuth 2.0 credentials (Desktop app type).
+
+### Option A — npx (Zero Install)
 
 ```bash
 npx youtube-channel-mcp
 ```
 
-### Option B: Global Install
+### Option B — Clone + Run
 
 ```bash
-npm install -g youtube-channel-mcp
-```
-
-### Option C: Clone + Run
-
-```bash
-git clone https://github.com/adityaarsharma/youtube-channel-mcp.git
-cd youtube-channel-mcp
+git clone https://github.com/adityaarsharma/youtube-mcp-server
+cd youtube-mcp-server
 npm install
 ```
 
-### Option D: Download ZIP
+Or use the install script:
 
-1. Click **Code → Download ZIP** above
-2. Unzip → open Terminal → `cd` into the folder
-3. Run `npm install`
+```bash
+curl -fsSL https://raw.githubusercontent.com/adityaarsharma/youtube-mcp-server/main/install.sh | bash
+```
 
----
-
-## Setup (15 minutes, one time)
-
-### Step 1 — Google Cloud Project
-
-1. Go to [console.cloud.google.com](https://console.cloud.google.com)
-2. Create a new project (name: `YouTube MCP`)
-3. Enable these 2 APIs:
-   - **YouTube Data API v3** (for video data + updates)
-   - **YouTube Analytics API** (for private analytics)
-
-### Step 2 — OAuth Consent Screen
-
-1. Go to **APIs & Services → OAuth consent screen**
-2. Select **External** → Create
-3. Fill in app name (`YouTube MCP`), your email
-4. Skip scopes → Add your Gmail as test user → Save
-
-### Step 3 — Create OAuth Credentials
-
-1. Go to **APIs & Services → Credentials**
-2. Click **+ Create Credentials → OAuth client ID**
-3. Select **Desktop app** → Create
-4. **Download JSON** → rename to `credentials.json`
-5. Move into this repo folder
-
-### Step 4 — Authenticate
+### Authenticate
 
 ```bash
 node auth.js
 ```
 
-Browser opens → log in with the Google account that owns your YouTube channel → Allow.
+Opens a browser for OAuth. Saves `tokens.json` locally. Grants full read + write scopes including `youtube.force-ssl`.
 
-> **"This app isn't verified"** warning is normal for personal apps. Click **Advanced → Go to YouTube MCP (unsafe)**.
-
-### Step 5 — Connect to Claude
-
-#### Claude Desktop
-
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+### Add to Claude Code
 
 ```json
 {
   "mcpServers": {
-    "youtube-analytics": {
+    "youtube-marketing": {
       "command": "node",
-      "args": ["/full/path/to/youtube-channel-mcp/server.js"]
+      "args": ["/path/to/youtube-mcp-server/server.js"]
     }
   }
 }
 ```
 
-Or if installed via npm:
+### Add to Claude Desktop
 
 ```json
 {
   "mcpServers": {
-    "youtube-analytics": {
+    "youtube-marketing": {
       "command": "npx",
-      "args": ["-y", "youtube-channel-mcp"]
+      "args": ["youtube-channel-mcp"]
     }
   }
 }
 ```
 
-#### Claude Code (Terminal)
+### Remote Mode — Team Access (HTTP/SSE)
 
 ```bash
-claude mcp add youtube-analytics node /full/path/to/youtube-channel-mcp/server.js
+MODE=remote PORT=3001 node server.js
 ```
-
-#### VS Code
-
-Add to `.vscode/settings.json`:
 
 ```json
 {
-  "mcp.servers": {
-    "youtube-analytics": {
-      "command": "npx",
-      "args": ["-y", "youtube-channel-mcp"]
+  "mcpServers": {
+    "youtube-marketing": {
+      "type": "sse",
+      "url": "https://your-server.com:3001/sse"
     }
   }
 }
 ```
 
-Restart Claude. Done!
+### Install Skill Files
 
----
-
-## Ready-to-Use Prompts
-
-### SEO Audit (any video)
-```
-Get the full details for this video: [paste URL or ID]
-Check what keywords it's ranking for and suggest optimized title + tags
-```
-
-### Channel Performance Report
-```
-Pull my channel overview, top 20 videos by watch time, 90-day analytics,
-traffic sources and audience demographics. Give me a full performance report.
-```
-
-### Video Topic Research
-```
-Get my top 20 videos by watch time. What patterns do you see —
-topics, lengths, title styles? Suggest 10 new video ideas.
-```
-
-### Update Video SEO
-```
-Search my videos for "elementor menu". Pull the full details.
-Write an optimized title, description, and tags — then update it.
-```
-
-### Audience Deep Dive
-```
-Show my full audience demographics — age, gender, countries, devices.
-What content style and posting schedule fits my actual audience?
-```
-
-### Underperformer Diagnosis
-```
-Get all my videos. Compare bottom 10 vs top 10 by views.
-Why did the lower ones underperform? What would you change?
+```json
+{
+  "skills": ["/path/to/youtube-mcp-server/skills/youtube-marketing/SKILL.md"]
+}
 ```
 
 ---
 
-## 8 Bundled AI Skills for YouTube Creators
+## Configure for Your Channel
 
-This repo includes **ready-to-use AI skill files** in the `skills/` folder that supercharge your YouTube workflow. Each skill is a structured prompt that makes Claude act as a specialized team member.
+Open `skills/youtube-marketing/SKILL.md` and set your channel constants once:
 
-**Install any skill:** Copy the `.md` file into your Claude skills directory and it activates automatically.
+```markdown
+## Channel Profile — [Your Channel]
 
-| Skill | What It Does | Trigger Phrases |
-|-------|-------------|-----------------|
-| **[SEO Optimizer](skills/youtube-seo-optimizer.md)** | Optimizes titles, descriptions, tags. Protects existing ranking keywords. 3 title options + full description + 20 tags | "optimize this video", "write title", "write tags" |
-| **[Channel Audit](skills/youtube-channel-audit.md)** | Full channel health report — views, subs, retention, traffic sources, audience demographics. Identifies problems and prescribes fixes | "audit my channel", "why am I not growing", "channel report" |
-| **[Topic Finder](skills/youtube-topic-finder.md)** | 12 data-backed video topics with keyword volumes, SERP gaps, and competitor analysis. Tier 1/2/3 prioritization | "video ideas", "what should I make next", "find topics" |
-| **[Thumbnail Auditor](skills/youtube-thumbnail-auditor.md)** | 20-point thumbnail scoring (66-point scale). Grades A-F with specific redesign instructions | "audit thumbnail", "review this thumbnail", "CTR is low" |
-| **[Script Writer](skills/youtube-script-writer.md)** | Full production-ready scripts with word-for-word narration, screen cues, timestamps, editor brief, and companion Short script | "write script", "video script", "tutorial script" |
-| **[Competitor Spy](skills/youtube-competitor-spy.md)** | Competitor channel analysis, SERP battle maps, 10 "steal-worthy" topics with differentiation angles | "competitor analysis", "who's beating me", "content gaps" |
-| **[Video Analyzer](skills/youtube-video-analyzer.md)** | Deep single-video analysis — SEO score (21-point), performance benchmarks, and optimized rewrite | "analyze this video", "why isn't this performing", "video audit" |
-| **[Shorts Repurposer](skills/youtube-shorts-repurposer.md)** | Turn any long-form video into 3-5 Shorts with hooks, text overlays, and posting strategy | "make shorts from this", "repurpose video", "extract shorts" |
-
-### How the Skills + MCP Work Together
-
-```
-You: "Optimize this video: youtube.com/watch?v=abc123"
-
-Claude:
-  1. youtube-seo-optimizer skill activates
-  2. Calls get_video_details → pulls current title, description, tags
-  3. Checks YouTube SERP for current rankings
-  4. Lists PROTECTED keywords (won't remove)
-  5. Writes 3 new title options + full description + 20 tags
-  6. Can call update_video_seo to apply changes directly
+- Subscribers: [N] | Videos: [N] | Avg daily views: [N]
+- Best publish time: [your timezone]
+- Products: [your products]
+- Discount code: [your code]
+- Fixed links in every description: [your links]
 ```
 
-The skills tell Claude **what to do**. The MCP tools give Claude **access to your data**. Together they create a complete YouTube AI workflow.
+Every command now knows your channel's products, pricing, conversion goals, and audience. It writes descriptions with your links, recommends titles for your niche, and diagnoses your funnel — not a generic creator's.
 
-### Install Skills
+**Choose your channel type** from `skills/youtube-marketing/templates/`:
 
-**Claude Desktop / Claude Code:**
-```bash
-# Copy a skill to your Claude skills directory
-cp skills/youtube-seo-optimizer.md ~/.claude/skills/
-```
-
-**Or install all 8:**
-```bash
-cp skills/youtube-*.md ~/.claude/skills/
-```
+| Template | For |
+|----------|-----|
+| `product-company.md` | Plugin/SaaS companies (POSIMYTH default) |
+| `tutorial-channel.md` | Pure tutorial, affiliate revenue |
+| `personal-brand.md` | Consulting/coaching funnel |
+| `saas-channel.md` | Trial signups |
+| `wordpress-specialist.md` | WP ecosystem, affiliate |
+| `agency-channel.md` | Client acquisition |
 
 ---
 
-## OAuth Scopes
+## Research Foundation
 
-| Scope | Purpose |
-|-------|---------|
-| `youtube` | Read + write video metadata (titles, descriptions, tags) |
-| `youtube.readonly` | Read video data, search, list |
-| `yt-analytics.readonly` | Read private analytics (views, watch time, subs, demographics) |
-| `youtubepartner-channel-audit` | Extended channel audit data |
+Every recommendation is grounded in published data:
 
-**To enable write access** (update_video_seo), delete `tokens.json` and re-run `node auth.js`. The new auth flow requests the `youtube` write scope.
+| Source | Finding |
+|--------|---------|
+| Retention Rabbit (150M+ minutes) | Hook length 28–42s optimal for tutorials |
+| Wistia, 2024 | Pattern interrupts every 60–90s → −40% drop-off |
+| Focus Digital, Dec 2025 | Tutorial CTR benchmarks: Poor <3%, Avg 3–5%, Good 5–8%, Excellent >8% |
+| vidIQ (5M channel dataset) | 2–3x/week upload cadence → 4x subscriber growth |
+| vidIQ (5M channel dataset) | Face in thumbnail → +38% CTR |
+| BrightEdge, 2025 | Blog post with YouTube embed ranks 53% higher on Google |
+| Yoast SEO Study, 2024 | VideoObject schema on WordPress → +31% Google CTR |
+| ConversionXL, 2024 | Plugin demo videos convert at 2.8–6% |
+| YouTube Official, Sept 2025 | Shorts freshness decay: 28–30 day cliff |
+| HubSpot, 2024 | Content repurposed to 3+ formats → 3.5x total reach |
 
----
-
-## Privacy & Security
-
-| Question | Answer |
-|----------|--------|
-| Does my data go to any server? | No — runs 100% on your machine |
-| Can it delete videos? | No — only reads data and updates metadata |
-| Is OAuth safe? | Yes — same system used by TubeBuddy, VidIQ |
-| Can I revoke access? | Yes — anytime at myaccount.google.com/permissions |
-
-**Never commit `credentials.json` or `tokens.json` to git.**
+Full citations: [`references/whitepapers.md`](references/whitepapers.md)
 
 ---
 
-## Troubleshooting
+## Compatible Integrations
 
-| Problem | Fix |
-|---------|-----|
-| `credentials.json not found` | Download from Google Cloud Console → move to repo folder |
-| `Not authenticated` | Run `node auth.js` |
-| Port 3000 in use | `lsof -ti:3000 \| xargs kill -9` then retry |
-| Claude doesn't show tools | Check JSON syntax in config, restart Claude fully |
-| "App isn't verified" | Click Advanced → Go to YouTube MCP (unsafe) |
-| `update_video_seo` fails | Delete `tokens.json`, re-run `node auth.js` for write scope |
-| Quota exceeded | YouTube API free limit: 10,000 units/day. Wait 24h |
-
----
-
-## What's New in v2.1
-
-- **npm package** — `npx youtube-channel-mcp` for zero-install
-- **8 AI skills** — bundled YouTube workflow skills for Claude
-- **MIT License** — free to use, modify, share
-
-## What's New in v2.0
-
-- **`get_video_details`** — Full metadata by video ID or URL. Works for public, unlisted, private, and draft videos
-- **`search_my_videos`** — Search your own uploads by keyword
-- **`update_video_seo`** — Update title, description, tags directly on YouTube
-- **YouTube write scope** — OAuth now requests `youtube` scope for SEO updates
-- **URL parsing** — Pass full YouTube URLs or just video IDs
-- **Privacy status** — All video listings now show public/unlisted/private status
-
----
-
-## Files
-
-```
-youtube-channel-mcp/
-├── server.js          ← MCP server (10 tools)
-├── auth.js            ← Run once to link YouTube account
-├── package.json       ← Dependencies + npm config
-├── skills/            ← 8 AI skills for YouTube creators
-├── LICENSE            ← MIT
-├── credentials.json   ← YOU add this (never commit!)
-└── tokens.json        ← Auto-created after auth (never commit!)
-```
-
----
-
-## Contributing
-
-PRs welcome! Ideas:
-- Transcript extraction (YouTube captions API)
-- YouTube Shorts-specific analytics
-- Revenue/monetization data (YouTube Reporting API)
-- Playlist management tools
-- Comment management tools
-- Thumbnail upload
+| Integration | Used For |
+|-------------|---------|
+| **DataForSEO MCP** | Keyword research, live SERP analysis |
+| **WordPress MCP** | Publishing companion posts via `/youtube wp-post` |
+| **Google Search Console MCP** | Cross-referencing search performance |
+| **GA4 MCP** | Traffic attribution in `/youtube funnel` |
+| **Figma MCP** | Thumbnail brief → design handoff |
 
 ---
 
 ## License
 
-[MIT](LICENSE) — free to use, modify, share.
-
----
-
-## Built By
-
-**[Aditya Sharma](https://adityaarsharma.com)** — Building AI tools for creators and marketers.
-
-- [Twitter/X](https://twitter.com/adityaarsharma)
-- [GitHub](https://github.com/adityaarsharma)
-
-If this saved you time — **star the repo** and share with a creator friend!
+MIT — [Aditya Sharma](https://adityaarsharma.com)

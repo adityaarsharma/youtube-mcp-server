@@ -1,0 +1,10 @@
+{
+  "name": "youtube-marketing",
+  "version": "1.0.0",
+  "description": "21 YouTube marketing skills for Claude Code and AI agents. SEO, scripts, analytics, Shorts, batch updates, WordPress publishing, and funnel analysis — driven by live data. Built for product-company channels.",
+  "author": "adityaarsharma",
+  "license": "MIT",
+  "homepage": "https://github.com/adityaarsharma/youtube-mcp-server",
+  "keywords": ["youtube", "marketing", "seo", "analytics", "shorts", "wordpress", "mcp"],
+  "skillPath": "skills/youtube-marketing/SKILL.md"
+}
