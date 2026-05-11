@@ -51,25 +51,51 @@ One subscriber from your niche is worth more than 10,000 random views. This tool
 
 ## Quick Start
 
-**Two install paths — full guide in [INSTALL.md](INSTALL.md):**
+**Three install modes — pick whichever fits.** Full guide: [INSTALL.md](INSTALL.md).
 
-### Path 1 — Skill-Only (60 seconds, no Node.js)
+| Mode | Node.js? | OAuth? | Live Channel Data | Best For |
+|------|----------|--------|-------------------|----------|
+| **1. Skill-Only** | No | No | No | Trying it out, offline use |
+| **2. Hosted MCP** | No | Yes (1-click web) | Yes | Most people — no install hassle |
+| **3. Local MCP** | Yes | Yes (local) | Yes | Privacy maximalists, advanced users |
+
+### Mode 1 — Skill-Only (60 seconds, no install)
 
 ```bash
 git clone https://github.com/adityaarsharma/youtube-marketing-skills.git
 cp -r youtube-marketing-skills/skills/youtube-marketing ~/.claude/skills/
 ```
 
-Done. Open Claude Code, type `/youtube-strategy`. Works in Claude Code, Cursor, Codex, Gemini CLI — no server, no OAuth, no Node.
+Open Claude Code, type `/youtube-strategy`. Done. Also works in Cursor, Codex, Gemini CLI.
 
-### Path 2 — Live Channel Mode (full power)
+### Mode 2 — Hosted MCP (recommended — no Node.js, full live data)
 
-Adds private analytics reading + SEO write-back to YouTube. Requires Node.js 18+ and a Google Cloud OAuth project.
+1. Connect your YouTube at **[youtube-skills.adityaarsharma.com/connect](https://youtube-skills.adityaarsharma.com/connect)** (opens Google OAuth, returns a refresh token)
+2. Add the hosted MCP URL + your token to `~/.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "youtube": {
+      "url": "https://youtube-mcp.adityaarsharma.com/sse",
+      "transport": "sse",
+      "env": { "YOUTUBE_REFRESH_TOKEN": "your-token-here" }
+    }
+  },
+  "skills": ["~/.claude/skills/youtube-marketing/SKILL.md"]
+}
+```
+
+**Privacy:** The hosted MCP is a stateless relay. **We don't store your data, analytics, or tokens.** Each request passes through with your token, hits YouTube's API, returns the response. Nothing is logged or persisted server-side. The code running is exactly what's in [`server.js`](server.js) — open source, auditable.
+
+### Mode 3 — Local MCP (full control)
 
 ```bash
 npx youtube-channel-mcp
-node auth.js   # opens browser, saves tokens locally
+node auth.js   # OAuth runs locally, tokens stay on your machine
 ```
+
+Requires Node.js 18+ and a Google Cloud OAuth project. Nothing leaves your machine.
 
 Add to Claude Code `settings.json`:
 
@@ -332,7 +358,16 @@ Yes — with Path 2 (live mode), Claude connects to your channel via OAuth and c
 
 ### Do I need to install Node.js?
 
-No — **Path 1 (skill-only mode)** works without Node.js. The 21 commands are pure markdown skill files that Claude reads. You only need Node.js if you want the live channel tools (Path 2) that connect via OAuth.
+No — there are two no-Node paths:
+
+- **Mode 1 (Skill-Only)** — pure markdown skills, no server, no install. Trade-off: no live channel data, you paste analytics in manually.
+- **Mode 2 (Hosted MCP)** — uses our free hosted MCP endpoint at `youtube-mcp.adityaarsharma.com`. You get full live channel data + SEO write-back without installing Node. The hosted endpoint is a stateless relay — we don't store your tokens or data.
+
+Only **Mode 3 (Local MCP)** requires Node.js. That's for users who want everything running on their own machine with zero third parties.
+
+### Does the hosted MCP store my YouTube data or auth tokens?
+
+No. The hosted MCP at `youtube-mcp.adityaarsharma.com` is a **stateless relay**. Each request you send includes your OAuth token, the server uses it once to call YouTube's API, returns the response, and forgets it. No database, no logs of your tokens, no persistence of your channel data. The exact code running is in [`server.js`](server.js) — open source and auditable. If you don't trust the hosted version, run the same code yourself with Mode 3.
 
 ### How is this different from claude-youtube by AgriciDaniel?
 

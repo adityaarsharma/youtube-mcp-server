@@ -1,111 +1,130 @@
 # Install Guide
 
-Two paths. Pick the one that fits how you want to use it.
+Three ways to install. Pick what fits.
+
+| Mode | Node.js? | OAuth Setup | Live Channel Data | Best For |
+|------|----------|-------------|-------------------|----------|
+| **1. Skill-Only** | No | No | No (paste data manually) | Trying it out, offline use |
+| **2. Hosted MCP** | No | Yes (one-click via web) | Yes | Most people — no install hassle |
+| **3. Local MCP** | Yes | Yes (local) | Yes | Privacy maximalists, advanced users |
+
+**Privacy on Mode 2:** The hosted MCP is a stateless relay. **We don't store your YouTube data, your analytics, or your OAuth tokens.** Each request passes through with your token, hits YouTube's API, returns the response. Nothing is logged or persisted server-side.
 
 ---
 
-## Path 1 — Skill-Only Mode (No Node.js, No OAuth)
+## Mode 1 — Skill-Only (60 Seconds, No Install)
 
-**Best for:** Trying it out, working with channel data you paste in manually, using on a machine where you can't install Node.
+**What you get:** All 21 markdown commands. Claude generates SEO, scripts, ideas, audits — based on what you tell it about your channel. No live data access.
 
-**Time:** 60 seconds.
+**What you don't get:** Reading your private analytics. Pushing SEO updates back to YouTube. Anything that needs OAuth.
 
 ### Claude Code
 
 ```bash
-# Clone or download the repo
 git clone https://github.com/adityaarsharma/youtube-marketing-skills.git
-cd youtube-marketing-skills
-
-# Copy the skill into your Claude skills directory
-cp -r skills/youtube-marketing ~/.claude/skills/
+cp -r youtube-marketing-skills/skills/youtube-marketing ~/.claude/skills/
 ```
 
-That's it. Open Claude Code and type:
-
-```
-/youtube-strategy
-```
-
-Claude will ask you for the channel info it needs (handle, niche, products) and run the command. No server. No OAuth. No Node.
+Open Claude Code, type `/youtube-strategy`. Done.
 
 ### Cursor / Windsurf / Codex / Gemini CLI
 
-Same idea — drop the `skills/youtube-marketing/` folder into your agent's skills directory. The markdown files work standalone.
+Drop the `skills/youtube-marketing/` folder into your agent's skills directory.
 
 ### Manual download (no git)
 
-1. Download [the ZIP](https://github.com/adityaarsharma/youtube-marketing-skills/archive/refs/heads/main.zip)
-2. Unzip
-3. Move the `skills/youtube-marketing/` folder into `~/.claude/skills/`
-
-Done.
+[Download ZIP](https://github.com/adityaarsharma/youtube-marketing-skills/archive/refs/heads/main.zip) → unzip → move `skills/youtube-marketing/` into `~/.claude/skills/`.
 
 ---
 
-## Path 2 — Live Channel Mode (Full Power)
+## Mode 2 — Hosted MCP (Recommended — No Node.js)
 
-**Best for:** Real workflows where you want Claude to read your private analytics and push SEO updates directly to YouTube.
+**What you get:** Everything Mode 1 gives you + live channel data + SEO write-back to YouTube. No software install required.
 
-**Time:** ~10 minutes (Google Cloud project setup is the only slow part).
+**How it works:**
+1. You authorize YouTube via a one-click web flow → you get a refresh token
+2. You paste the token into your Claude config along with the hosted MCP URL
+3. Claude sends the token in each request → hosted MCP relays to YouTube → returns the data
+4. Nothing is stored on our end. Tokens live only in your Claude config.
 
-**Adds:**
-- Reads your private analytics (watch time, retention %, demographics, traffic sources)
-- Writes title, description, tags back to YouTube without opening Studio
-- 10 live channel tools available to every command
+### Step 1 — Get Your YouTube Token
 
-### Prerequisites
+Open: **`https://youtube-skills.adityaarsharma.com/connect`** *(coming online once subdomain is live)*
 
+Click **Connect YouTube** → log in with the Google account that owns your channel → grant permissions. The page displays your refresh token. Copy it.
+
+### Step 2 — Add to Claude
+
+**Claude Code** (`~/.claude/settings.json`):
+
+```json
+{
+  "mcpServers": {
+    "youtube": {
+      "url": "https://youtube-mcp.adityaarsharma.com/sse",
+      "transport": "sse",
+      "env": {
+        "YOUTUBE_REFRESH_TOKEN": "your-token-here"
+      }
+    }
+  },
+  "skills": ["~/.claude/skills/youtube-marketing/SKILL.md"]
+}
+```
+
+**Claude Desktop**: same `mcpServers` block in `claude_desktop_config.json`.
+
+**Cursor**: same block in `~/.cursor/mcp.json`.
+
+### Step 3 — Add the Skill Files
+
+Same as Mode 1 — clone repo, copy `skills/youtube-marketing/` to your skills directory. Skills are markdown, they live on your machine.
+
+### Why Trust the Hosted MCP?
+
+- **No data storage** — the server is stateless. No database, no logs of your tokens, no analytics on your channel data.
+- **Open source** — the exact code running on the hosted endpoint is [in this repo](server.js). You can audit it.
+- **Self-host fallback** — if you don't trust the hosted version, run the same code yourself with Mode 3. The hosted endpoint isn't doing anything special.
+
+---
+
+## Mode 3 — Local MCP (Full Control)
+
+**What you get:** Everything Mode 2 gives you + everything runs on your machine. OAuth tokens never leave your computer.
+
+**Requirements:**
 - Node.js 18+ ([install](https://nodejs.org))
 - Google Cloud project with **YouTube Data API v3** + **YouTube Analytics API** enabled
 - OAuth 2.0 credentials, type "Desktop app" — saved as `credentials.json`
 
-### Steps
+### Setup
 
 ```bash
-# 1. Install
-npx youtube-channel-mcp
+# 1. Clone + install
+git clone https://github.com/adityaarsharma/youtube-marketing-skills.git
+cd youtube-marketing-skills && npm install
 
-# 2. Put your credentials.json next to the package (or in ~/.config/youtube-mcp/)
+# 2. Put your credentials.json in this directory
 
-# 3. Authenticate once — opens browser, saves tokens.json locally
+# 3. Authenticate — opens browser, saves tokens locally
 node auth.js
 ```
 
-### Add to Claude Code
-
-`~/.claude/settings.json` (or project `settings.json`):
+### Configure Claude
 
 ```json
 {
   "mcpServers": {
     "youtube": {
-      "command": "npx",
-      "args": ["youtube-channel-mcp"]
+      "command": "node",
+      "args": ["/full/path/to/youtube-marketing-skills/server.js"]
     }
   },
-  "skills": ["/path/to/youtube-marketing-skills/skills/youtube-marketing/SKILL.md"]
+  "skills": ["/full/path/to/youtube-marketing-skills/skills/youtube-marketing/SKILL.md"]
 }
 ```
 
-### Add to Claude Desktop
-
-`~/Library/Application Support/Claude/claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "youtube": {
-      "command": "npx",
-      "args": ["youtube-channel-mcp"]
-    }
-  }
-}
-```
-
-### Cursor
-
-`~/.cursor/mcp.json`:
+Or use npm:
 
 ```json
 {
@@ -120,45 +139,56 @@ node auth.js
 
 ---
 
-## Path 3 — Remote Mode (Team / Hosted)
+## Configure Your Channel (All Modes)
 
-If you want to run the MCP server on a shared host so your team uses one channel from multiple machines:
-
-```bash
-MODE=remote PORT=3001 node server.js
-```
-
-Then point each client's MCP config at the HTTP/SSE endpoint instead of running locally.
-
----
-
-## Configure Your Channel (Both Paths)
-
-Open `skills/youtube-marketing/SKILL.md` and set these once:
+Open `skills/youtube-marketing/SKILL.md` (in your `~/.claude/skills/youtube-marketing/`) and set once:
 
 ```markdown
 Channel: [Your channel name and handle]
 Niche: [What you make videos about]
-Products: [Your products / services with URLs]
+Products: [Your products with URLs]
 Best publish time: [Day + time + timezone]
-Fixed links: [URLs to embed in every description — product, docs, community]
-Discount code: [Your coupon code, if you have one]
+Fixed links: [URLs to embed in every description]
+Discount code: [Your coupon, if any]
 ```
 
-Every command now respects your config. `/youtube-seo` will use your fixed links. `/youtube-funnel` will audit your real product pages.
-
-For multi-brand workflows, drop additional brand configs in `skills/youtube-marketing/templates/brands/` (this directory is gitignored — your private brand details stay local).
+Every command now respects your config. For multi-brand setups, drop additional brand files in `templates/brands/` (that directory is gitignored — your private brand details stay local).
 
 ---
 
 ## Verify
 
-```bash
+```
 # In Claude Code
 /youtube-strategy
 ```
 
-If Claude asks clarifying questions about your channel and returns a positioning + content pillars breakdown, you're good.
+If Claude returns positioning + content pillars, you're good. If you're in Mode 2 or Mode 3, also try:
+
+```
+/youtube-audit
+```
+
+This pulls live channel data. If it works, your OAuth is wired correctly.
+
+---
+
+## Mode Comparison — When to Pick Which
+
+**Pick Mode 1 (Skill-Only) if:**
+- You're trying it out and don't want to set anything up
+- You're on a locked-down machine where you can't install Node
+- You're comfortable pasting analytics into Claude manually
+
+**Pick Mode 2 (Hosted MCP) if:**
+- You want live channel data without installing Node
+- You don't want to set up a Google Cloud project
+- You're OK with your YouTube API requests passing through a stateless relay you didn't build
+
+**Pick Mode 3 (Local MCP) if:**
+- You want zero third parties between Claude and YouTube
+- You're already comfortable with Node + Google Cloud
+- You're running this for a client / team and want full audit control
 
 ---
 
@@ -166,8 +196,21 @@ If Claude asks clarifying questions about your channel and returns a positioning
 
 | Problem | Fix |
 |---------|-----|
-| `credentials.json not found` | Download OAuth credentials from Google Cloud Console → save in package dir or `~/.config/youtube-mcp/` |
-| `tokens.json saved` but Claude can't connect | Restart Claude Code / Desktop after editing settings.json |
-| Commands work but no live data | You're in skill-only mode — switch to Path 2 for live analytics |
-| `node: command not found` | Install Node.js 18+ or use Path 1 (skill-only, no Node) |
-| API quota exceeded | YouTube API has 10K units/day free — heavy `/youtube-batch-seo` runs can hit this |
+| `node: command not found` | You're trying Mode 3 without Node. Use Mode 1 or 2 instead. |
+| Claude says "skill not found" | Skills folder isn't in `~/.claude/skills/` — re-check the `cp -r` path |
+| OAuth fails on Mode 2 connect page | Hosted endpoint may not be live yet — fall back to Mode 3 |
+| `credentials.json not found` (Mode 3) | Download OAuth credentials from Google Cloud Console, save in package directory |
+| API quota exceeded | YouTube Data API gives 10K units/day free; `/youtube-batch-seo` is expensive — run on smaller batches |
+| Tokens expired (Mode 2/3) | Re-run the OAuth flow (`node auth.js` for Mode 3, refresh on hosted page for Mode 2) |
+
+---
+
+## What Gets Stored Where
+
+| Data | Mode 1 | Mode 2 (Hosted) | Mode 3 (Local) |
+|------|--------|-----------------|----------------|
+| Skill markdown files | Your machine | Your machine | Your machine |
+| Your YouTube channel data | Never accessed | Streamed through hosted MCP, not stored | Your machine |
+| OAuth tokens | None | Your Claude config (not on our server) | `tokens.json` on your machine |
+| Channel config (SKILL.md) | Your machine | Your machine | Your machine |
+| API request logs | None | **None on our side** | None |
