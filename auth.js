@@ -37,12 +37,13 @@ app.get("/oauth2callback", async (req, res) => {
     console.log("\n✅ tokens.json saved! You can close the browser.\n");
     setTimeout(() => process.exit(0), 1500);
   } catch (e) {
-    res.send("Error: " + e.message);
+    console.error("OAuth error:", e.message);
+    res.send("<h1 style='font-family:sans-serif;padding:40px'>❌ Authorization failed. Check your terminal for details.</h1>");
     process.exit(1);
   }
 });
 
 const server = app.listen(3000, () => {
-  console.log("\n🔐 Opening browser... Log in with aditya@posimyth.com\n");
+  console.log("\n🔐 Opening browser for YouTube OAuth authorization...\n");
   open(authUrl);
 });
