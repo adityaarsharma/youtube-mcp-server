@@ -20,12 +20,12 @@
 
 ## What This Is
 
-A Claude Code skill suite + MCP server that connects your AI to your **real YouTube channel** — reads your private analytics, writes SEO back to YouTube, and publishes companion posts to WordPress. Not a generic creator template. Not another dashboard.
+An **agent-agnostic** skill suite + MCP server that connects your AI agent of choice to your **real YouTube channel** — reads your private analytics, writes SEO back to YouTube, and publishes companion posts to WordPress. Works with Claude Code, Claude Desktop, Cursor, Windsurf, OpenAI Codex, Gemini CLI, or any MCP-compatible client. Not locked to any single LLM or vendor.
 
 **Three things no other YouTube AI tool does:**
 
 1. **Reads your private analytics** via OAuth — watch time, retention %, traffic sources, demographics. Not just public stats anyone can scrape.
-2. **Writes back to YouTube** — pushes updated titles, descriptions, and tags directly from Claude. No opening YouTube Studio.
+2. **Writes back to YouTube** — pushes updated titles, descriptions, and tags directly from your agent. No opening YouTube Studio.
 3. **Double-ranks on Google** — publishes a companion WordPress post with VideoObject schema so the same topic ranks on both Google and YouTube simultaneously.
 
 ```
@@ -66,7 +66,7 @@ git clone https://github.com/adityaarsharma/youtube-marketing-skills.git
 cp -r youtube-marketing-skills/skills/youtube-marketing ~/.claude/skills/
 ```
 
-Open Claude Code, type `/youtube-strategy`. Done. Also works in Cursor, Codex, Gemini CLI.
+Open your agent (Claude Code, Cursor, Codex, Windsurf, Gemini CLI — any MCP+Skills client) and type `/youtube-strategy`. Done.
 
 ### Mode 2 — Hosted MCP (recommended — no Node.js, full live data)
 
@@ -180,7 +180,7 @@ Every command now knows your business. Start with:
 
 ## Live Channel Tools
 
-What makes this different from every other Claude YouTube skill: **it connects to your real channel.**
+What makes this different from every other YouTube AI skill: **it connects to your real channel.**
 
 Direct read/write via OAuth2. Runs entirely on your machine — your data never leaves your computer.
 
@@ -273,7 +273,7 @@ Pick the template that fits your channel type — configure it once in `SKILL.md
 
 ### Video Production Stack
 
-Chain these together to produce finished videos from inside Claude — no manual editing, no leaving your terminal.
+Chain these together to produce finished videos from inside your agent — no manual editing, no leaving your terminal.
 
 | Integration | What It Enables | Used By |
 |-------------|----------------|---------|
@@ -366,9 +366,9 @@ See **[INSTALL.md](INSTALL.md)** for the full guide — skill-only (no Node.js),
 
 Yes. 100% free, open source, MIT licensed. No subscription, no paywalled features, no usage limits. Everything VidIQ charges $49–$99/month for — keyword research, SEO scoring, bulk SEO updates, channel audits — runs locally on your machine with this toolkit.
 
-### Can Claude AI manage my YouTube channel?
+### Can my AI agent manage my YouTube channel?
 
-Yes — with Path 2 (live mode), Claude connects to your channel via OAuth and can read your private analytics (watch time, retention, traffic sources) and write back SEO updates (title, description, tags) directly. You stay in control: Claude proposes changes, you approve before they push.
+Yes — with Mode 2 (Hosted MCP) or Mode 3 (Local MCP), your agent connects to your channel via OAuth and can read your private analytics (watch time, retention, traffic sources) and write back SEO updates (title, description, tags) directly. Works with Claude Code, Cursor, Windsurf, Codex, Gemini CLI, or any MCP-compatible client. You stay in control: the agent proposes changes, you approve before they push.
 
 ### Do I need to install Node.js?
 
