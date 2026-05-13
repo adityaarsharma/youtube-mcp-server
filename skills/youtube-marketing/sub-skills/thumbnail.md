@@ -2,94 +2,190 @@
 name: youtube-thumbnail
 description: >
   Generates 3 A/B thumbnail briefs with full design specs, title-thumbnail synergy check,
-  and CTR improvement recommendations. Based on Focus Digital CTR benchmarks and vidIQ data.
+  and CTR improvement recommendations. Brand-aware: @posimyth uses product brand colors
+  from Golden Circle; @adityaarsharma uses face+code formula. Based on Focus Digital
+  CTR benchmarks and vidIQ data.
 ---
 
 # /youtube thumbnail
 
-## Research Foundation
-- **Focus Digital, Dec 2025**: Tutorial channel avg CTR 4–8%. Dark backgrounds convert higher
-- **vidIQ**: Face in thumbnail → +38% CTR avg. Emotion > face alone
-- **AmpiFire**: Custom thumbnails vs auto-generated → +45% view lift
-- **Channel pattern**: [YOUR_COMPANY] top video uses dark bg + result showcase + minimal text
+## Brand Detection — Run First
 
-## Winning Formula for Tutorial/WordPress Niche
+Before generating any briefs, identify the brand:
+
+| Signal | Brand | Rules to apply |
+|--------|-------|---------------|
+| @posimyth / TPAE / Nexter / WDesignKit / UiChemy | **POSIMYTH** | Product-first, GC brand colors, no face required |
+| @adityaarsharma / Pickle / Jyotisha / YouTube MCP / RunCloud | **Personal** | Face-first, code/terminal as product, developer niche |
+
+Pass `--brand posimyth` or `--brand personal` to skip detection.
+
+---
+
+## POSIMYTH Brand — @posimyth
+
+### Research Foundation
+- **Focus Digital, Dec 2025**: Tutorial channel avg CTR 4–8%. Dark backgrounds convert higher
+- **vidIQ**: Face in thumbnail → +38% CTR avg (less critical for product-demo channels)
+- **Channel benchmark**: Organic Video → conversion = **16.5%** (GA4, Feb–May 2026)
+- **Top video pattern**: Dark bg + result showcase + minimal text + product UI visible
+
+### Brand Colors Per Product (from Golden Circle PRODUCT-QUICKREF.md)
+Always read `context/PRODUCT-QUICKREF.md` for the current source of truth. Quick reference:
+
+| Product | Background | Accent | Logo rule |
+|---------|-----------|--------|-----------|
+| TPAE | Blue-purple gradient `#6d68fe`→`#b446ff` | White / yellow | "+" mark or Plus wordmark |
+| NexterWP | Dark navy / teal | Teal/green | Nexter wordmark, legible |
+| WDesignKit | Hot pink/magenta `#E91E8C` | White | Square "W" logo bottom-right — MANDATORY |
+| UiChemy | Figma purple `#A259FF` left → WP blue right | White | Figma "F" + WP logo as ecosystem icons |
+
+### Winning Formula (POSIMYTH)
 
 | Element | Winning Pattern | What to Avoid |
 |---------|----------------|---------------|
-| Background | Dark (black/dark navy/dark gray) | White, light gray |
+| Background | Dark + product brand color zone | White, light gray, generic |
 | Main visual | Finished result in ACTIVE state | Elementor backend, building state |
-| Text | 2–3 words MAX, large, high contrast | 5+ words, small text |
-| Text color | White or brand accent (magenta/orange/yellow) | Gray, muted colors |
-| Face | Optional but +38% CTR if used with emotion | Neutral expression |
-| Arrows/motion | Show direction/movement if result is animated | Static screenshots |
+| Text | 3–5 words MAX, large, high contrast | 6+ words, sentence case |
+| Text color | White or brand accent (yellow/magenta) | Gray, muted colors |
+| Face | Optional — product UI often outperforms face here | Neutral expression with no product shown |
+| Arrows | One directional arrow max | Multiple arrows pointing everywhere |
 
-## 3 A/B Thumbnail Briefs
+### POSIMYTH — 3 A/B Variants
 
-For any video, generate 3 variants:
-
-### VARIANT A — Result Showcase (recommended default)
+**VARIANT A — Result Showcase (recommended default)**
 ```
 CONCEPT: Show the finished output in its most impressive state
-BACKGROUND: Black or very dark (#111 or #0a0a0a)
-MAIN VISUAL: The final result — website/widget in active/open state (not building state)
-TEXT OVERLAY: 2-3 words describing the benefit
-TEXT POSITION: Bottom third or left side
-TEXT SIZE: 80–120px, bold weight
-ACCENT COLOR: Use product brand color as text or outline
-FACE: Include if natural to content, left side 30% of frame
+BACKGROUND: Product brand color zone (left 40%) + dark (right 60%)
+MAIN VISUAL: The final result — widget/page in active/open state, not building state
+TEXT OVERLAY: 3-5 power words describing the outcome
+TEXT POSITION: Left third, vertically centered
+FONT: Montserrat ExtraBold or Bebas Neue, 90–120px
+ACCENT COLOR: Product brand color for 1 key word or underline
+LOGO: Product logo bottom-right, 80–100px
+FACE: Optional — if used, left 30% with clear emotion
 ```
 
-### VARIANT B — Before/After Split
+**VARIANT B — Before/After Split**
 ```
-CONCEPT: Left = problem/before, Right = solution/after
+CONCEPT: Left = problem/plain/Elementor, Right = solution/polished/Gutenberg
 BACKGROUND: Dark left panel, slightly lighter right panel
-DIVIDER: Vertical line, brand accent color
-LEFT VISUAL: Generic/broken/plain version of the result
-RIGHT VISUAL: The polished widget output
-TEXT: "BEFORE" / "AFTER" labels, small, above each panel
-HEADLINE: 2-3 word benefit at top
+DIVIDER: Vertical line, product brand color
+LEFT VISUAL: Plain/default/competitor state
+RIGHT VISUAL: The polished POSIMYTH output
+TEXT: "BEFORE"/"AFTER" labels small above panels + 3-word headline at top
+ECOSYSTEM ICONS: Relevant platform icons (Elementor E, Gutenberg W, Figma F)
 ```
 
-### VARIANT C — Text-Heavy (for "no code" / "free" angle)
+**VARIANT C — Bold Claim / Power Word**
 ```
-CONCEPT: Big bold claim drives the click, visual supports
+CONCEPT: The claim drives the click — visual supports
+BACKGROUND: Dark + brand color accent strip
+MAIN VISUAL: Product result as secondary element (40% of frame)
+TEXT (large, center): "FREE" / "1 CLICK" / "NO CODE" / "REPLACED 50+"
+TEXT (smaller): The specific outcome
+LOGO: Product logo clearly visible
+Note: Use when the method or scale IS the hook (free, 1-click, installs)
+```
+
+---
+
+## Personal Brand — @adityaarsharma
+
+### Research Foundation
+- Developer/maker audience: responds to competence signals and real work shown
+- Face + code outperforms code-only for personal brand recall
+- "How I..." hooks outperform "How to..." in this niche
+- Open source / free / GitHub stars are high-CTR signals for this audience
+
+### Brand Colors Per Product
+
+| Product | Background | Accent | Face? |
+|---------|-----------|--------|-------|
+| Pickle | Dark (`#0d0d0d`) | Claude purple `#7B61FF` | Yes — recommended |
+| Jyotisha | Deep dark `#1a0a2e` | Gold `#D4AF37` | Yes — spiritual credibility |
+| YouTube MCP | Dark (`#111`) | YouTube red `#FF0000` | Yes — with terminal |
+| RunCloud MCP | Dark server aesthetic | Teal/green `#00B894` | Optional |
+
+### Winning Formula (Personal Brand)
+
+| Element | Winning Pattern | What to Avoid |
+|---------|----------------|---------------|
+| Background | Dark — almost black | White, stock photo backgrounds |
+| Main visual | Terminal output / Claude Code interface / build result | Generic laptop stock photo |
+| Text | 3–5 words, first-person energy ("I BUILT", "IN 20 MIN") | Passive/generic phrasing |
+| Face | Left 35% of frame, clear expression (curiosity, "look at this") | No face at all (missed brand recall) |
+| Accent | Product-matched color for 1 power word | Too many colors |
+
+### Personal Brand — 3 A/B Variants
+
+**VARIANT A — Face + Result (recommended default)**
+```
+CONCEPT: Aditya's face reacts to / points at the result
+BACKGROUND: Near-black with product accent color strip on right
+LEFT (35%): Face — clear expression, looking toward result
+RIGHT (55%): Terminal output, Claude Code interface, or product demo screenshot
+TEXT: 3–5 word hook at top or bottom — bold, white, product accent highlight on 1 word
+FONT: Montserrat ExtraBold, 80–100px
+FACE RULE: Genuine expression — curiosity, "you won't believe this", "here it is"
+```
+
+**VARIANT B — Code/Terminal Showcase**
+```
+CONCEPT: The build result is the hero — output speaks for itself
+BACKGROUND: Dark with subtle grid or terminal aesthetic
+MAIN VISUAL: Claude Code terminal output or product interface — full width
+TEXT OVERLAY (left strip or top): "I BUILT THIS" / "IN 20 MIN" / "WITH CLAUDE"
+SMALL FACE: Bottom-left corner, 100–120px — credit signal without dominating
+ACCENT: Product color on key metric or output text
+```
+
+**VARIANT C — Claim + Social Proof**
+```
+CONCEPT: Bold open-source/free claim + proof (GitHub stars, npm installs, downloads)
 BACKGROUND: Dark
-MAIN VISUAL: Widget result as secondary element (40% of frame)
-TEXT (large, center): "NO CODE" or "FREE" or "NO GSAP"
-TEXT (smaller): The specific thing they'll build
-COLOR: High contrast — white text on dark, accent for key word
-Note: Use when the method (no code/free) is the primary selling point
+TEXT (large): "FREE" / "OPEN SOURCE" / "1,000 STARS"
+TEXT (smaller): What it does in 5 words
+FACE: Optional — small, bottom corner
+ACCENT: GitHub green or npm red for social proof element
+Note: Use for launch announcements or milestone videos
 ```
 
-## Title-Thumbnail Synergy Check
+---
 
-Run this check for every thumbnail brief:
+## Topic Clarity Check (Both Brands)
+
+Run this for every brief generated — brand-agnostic:
 
 | Check | Pass / Fail |
 |-------|------------|
-| Thumbnail readable at 320×180px (mobile) | |
-| Text visible without reading title | |
-| Main visual matches title promise | |
-| Thumbnail works without seeing the title | |
-| Emotion/outcome is clear in <1 second | |
+| Thumbnail readable without the title | |
+| Tool/product doing the action is identifiable | |
+| Outcome scope is clear (1 page? full site? 20 min build?) | |
+| Pain signal or urgency present | |
+| UI content inside mockups matches the video topic | |
+| Readable at 120px width (mobile) | |
 
-**Rule**: Thumbnail and title should be able to work independently. If you need to read the title to understand the thumbnail, the thumbnail is too weak.
+**Rule**: If the first two checks fail → revise the variant before delivering. A thumbnail that needs the title to explain it is a weak thumbnail.
 
 ## Output Format
 
 ```
 ## THUMBNAIL BRIEFS FOR: [Video Title]
+**Brand:** @posimyth / @adityaarsharma
+**Product:** [product name]
 
 ### 🎨 VARIANT A — [Name]
-Concept: [1 sentence]
+Concept: [1 sentence — what the viewer sees and feels]
 Background: [color code or description]
-Main visual: [what to show, specific state]
-Text overlay: [exact words]
+Main visual: [what to show, specific state — not vague]
+Text overlay: [exact words, max 5]
 Text position: [placement]
-Font weight: Bold / Extra Bold
-Accent color: [hex or description]
-Face: Yes/No — [if yes, emotion and position]
+Font: Montserrat ExtraBold / Bebas Neue, [size]px
+Accent color: [hex]
+Face: Yes (left 35%, [emotion]) / No
+Logo: [product logo, position, size]
+Ecosystem icons: [Elementor / Gutenberg / Figma / GitHub — if relevant]
 Design notes: [any specific instructions]
 
 ### 🎨 VARIANT B — [Name]
@@ -99,10 +195,12 @@ Design notes: [any specific instructions]
 [Same format]
 
 ---
+## TOPIC CLARITY CHECK
+[Table results — flag any fails]
+
 ## RECOMMENDED TEST ORDER
 Start with Variant A. If CTR <4% after 500 impressions, switch to Variant B.
 
 ## TITLE-THUMBNAIL SYNERGY
-[Checklist results]
-[Any mismatch notes]
+[Any mismatch — does thumbnail + title complement or repeat each other?]
 ```
